@@ -1,0 +1,19 @@
+case_study:
+  train: 'C:/Users/dcorr/Desktop/TU thesis/DataThesis/DATI/Ferrara/Qh_CS2_14.txt'
+  test: 'C:/Users/dcorr/Desktop/TU thesis/DataThesis/DATI/Ferrara/Qh_CS2_15.txt'
+
+days: 
+  train: 'C:/Users/dcorr/Desktop/TU thesis/DataThesis/Models/days2014.csv'
+  test: 'C:/Users/dcorr/Desktop/TU thesis/DataThesis/Models/days2015.csv'
+
+precipitatC:ion:
+  train: '/Users/dcorr/Desktop/TU thesis/DataThesis/Models/Prec2014CS2.csv'
+  test: 'C:/Users/dcorr/Desktop/TU thesis/DataThesis/Models/Prec2015CS2.csv'
+
+relative_humidity:
+  train: 'C:/Users/dcorr/Desktop/TU thesis/DataThesis/Models/RH2014CS2.csv'
+  test: 'C:/Users/dcorr/Desktop/TU thesis/DataThesis/Models/RH2015CS2.csv'
+
+temperature:
+  train: 'C:/Users/dcorr/Desktop/TU thesis/DataThesis/Models/MaxTem2014CS2.csv'
+  test: 'C:/Users/dcorr/Desktop/TU thesis/DataThesis/Models/MaxTem2015CS2.csv'
