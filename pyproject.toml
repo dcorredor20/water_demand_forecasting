@@ -13,7 +13,6 @@ sklearn = "^0.0"
 lint = "^1.2.1"
 numpy = "^1.19.5"
 matplotlib = "^3.4.2"
-ipykernel = "^6.0.3"
 
 [tool.poetry.dev-dependencies]
 pytest = "^5.2"
