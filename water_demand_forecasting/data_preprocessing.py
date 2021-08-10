@@ -5,9 +5,7 @@ from sklearn.preprocessing import MinMaxScaler
 from typing import Dict, List, Tuple
 
 
-def data_preprocessing(
-    variables: List[str], config: Dict[str, str], lookback: int
-) -> Tuple[np.array, np.array, np.array, np.array, np.array, np.array, MinMaxScaler, MinMaxScaler]:
+def data_preprocessing(variables: List[str], config: Dict[str, str], lookback: int):
     """Prepare the X,Y datasets for train, test and validation."""
 
     # Select the variables for the model to be trained on
