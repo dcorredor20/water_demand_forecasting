@@ -1,4 +1,4 @@
-import matplotlib as plt
+import matplotlib.pyplot as plt
 
 def loss_plot(model, model_str: str, color: str):
 	f, ax = plt.subplots(1,2,figsize=(18,6))

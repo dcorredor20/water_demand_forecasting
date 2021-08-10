@@ -7,7 +7,7 @@ from typing import Dict, List, Tuple
 
 def data_preprocessing(
     variables: List[str], config: Dict[str, str], lookback: int
-) -> Tuple[np.array, np.array, np.array, np.array, np.array, np.array]:
+) -> Tuple[np.array, np.array, np.array, np.array, np.array, np.array, MinMaxScaler, MinMaxScaler]:
     """Prepare the X,Y datasets for train, test and validation."""
 
     # Select the variables for the model to be trained on
@@ -45,7 +45,7 @@ def data_preprocessing(
     Xtest = scx.transform(Xtest).reshape(Xtest_shape)
     Ytest = scy.transform(Ytest).reshape(Ytest_shape)
 
-    return Xtra, Ytra, Xval, Yval, Xtest, Ytest
+    return Xtra, Ytra, Xval, Yval, Xtest, Ytest, scx, scy
 
 
 def build_datasets(
