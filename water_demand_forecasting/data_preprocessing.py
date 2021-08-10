@@ -58,16 +58,16 @@ def build_datasets(
 
     for v in variables:
         assert v in config.keys(), "Variable not in config"
+        import pdb; pdb.set_trace()
         # Read data
         df = pd.read_csv(config[v][mode], header=None, sep=r"\s+")
         # Reshape data
         if v == "case_study":
             X = df.values.reshape(-1)
+            X, Y = create_sequences(X, lookback)
         else:
             X = np.array(df)
-
-        # Create timestemps
-        X, Y = create_sequences(X, lookback)
+            X, _ = create_sequences(X, lookback)        
 
         # If more than one variable reshape
         if len(variables) > 1 and v == "case_study":
