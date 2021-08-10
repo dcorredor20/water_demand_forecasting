@@ -1,0 +1,19 @@
+case_study:
+  train: '/content/gdrive/MyDrive/DataThesis/DATI/Ferrara/Qh_CS5_14.txt'
+  test: '/content/gdrive/MyDrive/DataThesis/DATI/Ferrara/Qh_CS5_15.txt'
+
+days: 
+  train: 'gdrive/MyDrive/DataThesis/Meteo/days2014.csv'
+  test: 'gdrive/MyDrive/DataThesis/Meteo/days2015.csv'
+
+precipitation:
+  train: 'gdrive/MyDrive/DataThesis/Meteo/Prec2014CS5.csv'
+  test: 'gdrive/MyDrive/DataThesis/Meteo/Prec2015CS5.csv'
+
+relative_humidity:
+  train: 'gdrive/MyDrive/DataThesis/Meteo/RH2014CS5.csv'
+  test: 'gdrive/MyDrive/DataThesis/Meteo/RH2015CS5.csv'
+
+temperature:
+  train: 'gdrive/MyDrive/DataThesis/Meteo/MaxTem2014CS5.csv'
+  test: 'gdrive/MyDrive/DataThesis/Meteo/MaxTem2015CS5.csv'
