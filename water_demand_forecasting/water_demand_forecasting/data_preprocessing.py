@@ -6,11 +6,13 @@ from typing import Dict, List, Tuple
 
 
 def data_preprocessing(
-    variables: List[str], config: Dict[str, str]
+    variables: List[str], config: Dict[str, str], lookback: int
 ) -> Tuple[np.array, np.array, np.array, np.array, np.array, np.array]:
+    """Prepare the X,Y datasets for train, test and validation."""
+
     # Select the variables for the model to be trained on
-    X, Y = build_datasets(variables, config, mode="train")
-    Xtest, Ytest = build_datasets(variables, config, mode="test")
+    X, Y = build_datasets(variables, config, mode="train", lookback=lookback)
+    Xtest, Ytest = build_datasets(variables, config, mode="test", lookback=lookback)
 
     # Create train and validation sets
     Xtra, Xval, Ytra, Yval = train_test_split(X, Y, shuffle=True)
@@ -47,7 +49,7 @@ def data_preprocessing(
 
 
 def build_datasets(
-    variables: List[str], config: Dict[str, str], mode: str
+    variables: List[str], config: Dict[str, str], mode: str, lookback: int
 ) -> Tuple[np.array, np.array]:
     """Load data and return X and Y."""
 
@@ -67,28 +69,29 @@ def build_datasets(
             X = np.array(df)
 
         # Create timestemps
-        X, Y = create_sequences(X, T=168)
+        X, Y = create_sequences(X, lookback)
 
         # If more than one variable reshape
-        if len(variables) > 1:
+        if len(variables) > 1 and v == "case_study":
             X = np.expand_dims(X, axis=2)
 
         X_all.append(X)
-        X_all = np.concatenate(X_all, axis=-1)
 
-        return X_all, Y
+    X_all = np.concatenate(X_all, axis=-1)
+
+    return X_all, Y
 
 
 def create_sequences(
-    series: np.array, T: int = 24, H: int = 24
+    series: np.array, lookback: int, horizon: int = 24
 ) -> Tuple[np.array, np.array]:
     """Return X and Y sequences."""
     X = []
     Y = []
-    for t in range(len(series) - T - H):
-        x = series[t : t + T]
+    for t in range(len(series) - lookback - horizon):
+        x = series[t : t + lookback]
         X.append(x)
-        y = series[t + T : t + T + H]
+        y = series[t + lookback : t + lookback + horizon]
         Y.append(y)
 
     X = np.array(X)
