@@ -10,6 +10,7 @@ class WDF_Model:
     Class to define all the steps in for a model.
 
     """
+
     @staticmethod
     def read_datasets(
         variables: List[str], config: Dict[str, str], mode: str
@@ -67,10 +68,19 @@ class WDF_Model:
 
     @staticmethod
     def scaler(
-        Xtra:np.array, Ytra:np.array, Xval:np.array, Yval:np.array, Xtest:np.array, Ytest:np.array, type_scaler:str,
-        variables:List[str]
+        Xtra: np.array,
+        Ytra: np.array,
+        Xval: np.array,
+        Yval: np.array,
+        Xtest: np.array,
+        Ytest: np.array,
+        type_scaler: str,
+        variables: List[str],
     ):
-        assert type_scaler in ["MinMax", "Standard"], "Scaler must be MinMax or Standard"
+        assert type_scaler in [
+            "MinMax",
+            "Standard",
+        ], "Scaler must be MinMax or Standard"
         # Scalers
         if type_scaler == "MinMax":
             scx = MinMaxScaler([0, 1])
@@ -105,7 +115,12 @@ class WDF_Model:
         return Xtra, Ytra, Xval, Yval, Xtest, Ytest, scx, scy
 
     @staticmethod
-    def data_preprocessing(variables: List[str], config: Dict[str, str], lookback: int, type_scaler:str = "MinMax"):
+    def data_preprocessing(
+        variables: List[str],
+        config: Dict[str, Dict[str, str]],
+        lookback: int,
+        type_scaler: str = "MinMax",
+    ):
         """Prepare the X,Y datasets for train, test and validation."""
 
         # Select the variables for the model to be trained on
@@ -119,6 +134,6 @@ class WDF_Model:
         Xtra, Xval, Ytra, Yval = train_test_split(X, Y, shuffle=True)
 
         Xtra, Ytra, Xval, Yval, Xtest, Ytest, scx, scy = WDF_Model.scaler(
-            Xtra, Ytra, Xval, Yval, Xtest, Ytest, type_scaler,variables
+            Xtra, Ytra, Xval, Yval, Xtest, Ytest, type_scaler, variables
         )
         return Xtra, Ytra, Xval, Yval, Xtest, Ytest, scx, scy
