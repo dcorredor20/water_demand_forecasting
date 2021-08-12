@@ -1,7 +1,7 @@
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import MinMaxScaler
+from sklearn.preprocessing import MinMaxScaler, StandardScaler
 from typing import Dict, List, Tuple
 
 
@@ -10,7 +10,6 @@ class WDF_Model:
     Class to define all the steps in for a model.
 
     """
-
     @staticmethod
     def read_datasets(
         variables: List[str], config: Dict[str, str], mode: str
@@ -68,41 +67,45 @@ class WDF_Model:
 
     @staticmethod
     def scaler(
-        Xtra:np.array, Ytra:np.array, Xval:np.array, Yval:np.array, Xtest:np.array, Ytest:np.array, type:str,
+        Xtra:np.array, Ytra:np.array, Xval:np.array, Yval:np.array, Xtest:np.array, Ytest:np.array, type_scaler:str,
         variables:List[str]
     ):
+        assert type_scaler in ["MinMax", "Standard"], "Scaler must be MinMax or Standard"
         # Scalers
-        if type == "MinMax":
+        if type_scaler == "MinMax":
             scx = MinMaxScaler([0, 1])
             scy = MinMaxScaler([0, 1])
+        if type_scaler == "Standard":
+            scx = StandardScaler()
+            scy = StandardScaler()
 
-            # For train
-            Xtra_shape = Xtra.shape
-            Ytra_shape = Ytra.shape
-            Xtra = Xtra.reshape((-1, len(variables)))
-            Ytra = Ytra.reshape((-1, 1))
-            Xtra = scx.fit_transform(Xtra).reshape(Xtra_shape)
-            Ytra = scy.fit_transform(Ytra).reshape(Ytra_shape)
+        # For train
+        Xtra_shape = Xtra.shape
+        Ytra_shape = Ytra.shape
+        Xtra = Xtra.reshape((-1, len(variables)))
+        Ytra = Ytra.reshape((-1, 1))
+        Xtra = scx.fit_transform(Xtra).reshape(Xtra_shape)
+        Ytra = scy.fit_transform(Ytra).reshape(Ytra_shape)
 
-            # For validation
-            Xval_shape = Xval.shape
-            Yval_shape = Yval.shape
-            Xval = Xval.reshape((-1, len(variables)))
-            Yval = Yval.reshape((-1, 1))
-            Xval = scx.transform(Xval).reshape(Xval_shape)
-            Yval = scy.transform(Yval).reshape(Yval_shape)
+        # For validation
+        Xval_shape = Xval.shape
+        Yval_shape = Yval.shape
+        Xval = Xval.reshape((-1, len(variables)))
+        Yval = Yval.reshape((-1, 1))
+        Xval = scx.transform(Xval).reshape(Xval_shape)
+        Yval = scy.transform(Yval).reshape(Yval_shape)
 
-            # For test
-            Xtest_shape = Xtest.shape
-            Ytest_shape = Ytest.shape
-            Xtest = Xtest.reshape((-1, len(variables)))
-            Ytest = Ytest.reshape((-1, 1))
-            Xtest = scx.transform(Xtest).reshape(Xtest_shape)
-            Ytest = scy.transform(Ytest).reshape(Ytest_shape)
+        # For test
+        Xtest_shape = Xtest.shape
+        Ytest_shape = Ytest.shape
+        Xtest = Xtest.reshape((-1, len(variables)))
+        Ytest = Ytest.reshape((-1, 1))
+        Xtest = scx.transform(Xtest).reshape(Xtest_shape)
+        Ytest = scy.transform(Ytest).reshape(Ytest_shape)
         return Xtra, Ytra, Xval, Yval, Xtest, Ytest, scx, scy
 
     @staticmethod
-    def data_preprocessing(variables: List[str], config: Dict[str, str], lookback: int):
+    def data_preprocessing(variables: List[str], config: Dict[str, str], lookback: int, type_scaler:str = "MinMax"):
         """Prepare the X,Y datasets for train, test and validation."""
 
         # Select the variables for the model to be trained on
@@ -116,6 +119,6 @@ class WDF_Model:
         Xtra, Xval, Ytra, Yval = train_test_split(X, Y, shuffle=True)
 
         Xtra, Ytra, Xval, Yval, Xtest, Ytest, scx, scy = WDF_Model.scaler(
-            Xtra, Ytra, Xval, Yval, Xtest, Ytest, "MinMax",variables
+            Xtra, Ytra, Xval, Yval, Xtest, Ytest, type_scaler,variables
         )
         return Xtra, Ytra, Xval, Yval, Xtest, Ytest, scx, scy
