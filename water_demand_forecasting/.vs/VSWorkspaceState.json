@@ -1,7 +1,7 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\config_files\\__pycache__"
   ],
-  "SelectedNode": "\\data_preprocessing.py",
   "PreviewInSolutionExplorer": false
 }
