@@ -1,20 +1,16 @@
 """Main module."""
-import data_preprocessing
+from data_preprocessing import Model
+from config_files.load_config_file import load_config_file
 import yaml
 
 
 # variables_model
 VARIABLES = ["case_study", "days"]
-CONFIG_FILE = r"C:\Users\dcorr\Source\Repos\water_demand_forecasting\water_demand_forecasting\local_config.yml"
+config = load_config_file(r"local_config.yml")
 T = 168
 
 
-# Load config file with the paths
-with open(CONFIG_FILE, "r") as in_file:
-    config = yaml.safe_load(in_file)
-
-
-Xtra, Ytra, Xval, Yval, Xtest, Ytest, scx, scy = data_preprocessing.data_preprocessing(
+Xtra, Ytra, Xval, Yval, Xtest, Ytest, scx, scy = Model.data_preprocessing(
     VARIABLES, config, lookback=T
 )
 print(Xtra.shape)
