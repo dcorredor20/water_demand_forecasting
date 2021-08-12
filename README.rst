@@ -16,8 +16,7 @@ Water_demand_forecasting
 
 
 
-Short-term water demand a district level [D[D[D[D[D[D[D[D[D[D[D[D[D[D[D[Dt a[C[C[C[C[C[C[C[C district level
-
+Short-term water demand at a district level
 
 * Free software: MIT license
 * Documentation: https://water-demand-forecasting.readthedocs.io.
