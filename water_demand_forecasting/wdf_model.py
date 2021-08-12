@@ -5,7 +5,7 @@ from sklearn.preprocessing import MinMaxScaler
 from typing import Dict, List, Tuple
 
 
-class Model:
+class WDF_Model:
     """
     Class to define all the steps in for a model.
 
@@ -51,10 +51,10 @@ class Model:
             # Reshape data
             if v == "case_study":
                 X = df_files[v].values.reshape(-1)
-                X, Y = Model.create_sequences(X, lookback)
+                X, Y = WDF_Model.create_sequences(X, lookback)
             else:
                 X = np.array(df_files[v])
-                X, _ = Model.create_sequences(X, lookback)
+                X, _ = WDF_Model.create_sequences(X, lookback)
 
             # If more than one variable reshape
             if len(variables) > 1 and v == "case_study":
@@ -106,16 +106,16 @@ class Model:
         """Prepare the X,Y datasets for train, test and validation."""
 
         # Select the variables for the model to be trained on
-        train_df = Model.read_datasets(variables, config, mode="train")
-        test_df = Model.read_datasets(variables, config, mode="test")
+        train_df = WDF_Model.read_datasets(variables, config, mode="train")
+        test_df = WDF_Model.read_datasets(variables, config, mode="test")
 
-        X, Y = Model.build_datasets(variables, train_df, lookback)
-        Xtest, Ytest = Model.build_datasets(variables, train_df, lookback)
+        X, Y = WDF_Model.build_datasets(variables, train_df, lookback)
+        Xtest, Ytest = WDF_Model.build_datasets(variables, train_df, lookback)
 
         # Create train and validation sets
         Xtra, Xval, Ytra, Yval = train_test_split(X, Y, shuffle=True)
 
-        Xtra, Ytra, Xval, Yval, Xtest, Ytest, scx, scy = Model.scaler(
+        Xtra, Ytra, Xval, Yval, Xtest, Ytest, scx, scy = WDF_Model.scaler(
             Xtra, Ytra, Xval, Yval, Xtest, Ytest, "MinMax",variables
         )
         return Xtra, Ytra, Xval, Yval, Xtest, Ytest, scx, scy

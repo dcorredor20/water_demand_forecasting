@@ -1,5 +1,5 @@
 """Main module."""
-from data_preprocessing import Model
+from wdf_model import WDF_Model
 from config_files.load_config_file import load_config_file
 import yaml
 
@@ -10,7 +10,7 @@ config = load_config_file(r"local_config.yml")
 T = 168
 
 
-Xtra, Ytra, Xval, Yval, Xtest, Ytest, scx, scy = Model.data_preprocessing(
+Xtra, Ytra, Xval, Yval, Xtest, Ytest, scx, scy = WDF_Model.data_preprocessing(
     VARIABLES, config, lookback=T
 )
 print(Xtra.shape)
