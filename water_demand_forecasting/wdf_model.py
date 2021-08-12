@@ -1,3 +1,4 @@
+"""Class to define all the steps involved in the data pre-processing."""
 import numpy as np
 import pandas as pd
 from sklearn.model_selection import train_test_split
@@ -7,7 +8,7 @@ from typing import Dict, List, Tuple
 
 class WDF_Model:
     """
-    Class to define all the steps in for a model.
+    Class to define all the steps involved in the data pre-processing.
 
     """
 
@@ -15,6 +16,18 @@ class WDF_Model:
     def read_datasets(
         variables: List[str], config: Dict[str, str], mode: str
     ) -> Dict[str, pd.DataFrame]:
+        """
+        Load raw tables.
+
+        Args:
+            variables: List of variables ['case_study', 'days', 'precipitation'...]
+            config: Dictionary {'train': 'path_to_train', ...}
+            mode: string train or test.
+
+        Returns:
+            A dictionary of dataframes. {days: df_days, ...}
+
+        """
         assert mode in ["train", "test"], "Mode not in train, test"
         dict_files = dict()
         for v in variables:
@@ -27,7 +40,18 @@ class WDF_Model:
     def create_sequences(
         series: np.array, lookback: int, horizon: int = 24
     ) -> Tuple[np.array, np.array]:
-        """Return X and Y sequences."""
+        """
+        Return X and Y sequences.
+
+        Args:
+            series: np.array with the data.
+            lookback: number of timesteps.
+            horizon: number of timesteps to predict.
+
+        Returns:
+            X, y.
+
+        """
         X = []
         Y = []
         for t in range(len(series) - lookback - horizon):
@@ -44,7 +68,18 @@ class WDF_Model:
     def build_datasets(
         variables: List[str], dict_files: Dict[str, pd.DataFrame], lookback: int,
     ) -> Tuple[np.array, np.array]:
-        """Load data and return X and Y."""
+        """
+        Creates X and y for all defined variables.
+
+        Args:
+            variables: List of variables ['case_study', 'days', 'precipitation'...]
+            dict_files: Dictionary of dataframes. {'case_study': df_train,...}
+            lookback: number of timesteps.
+
+        Returns:
+            X, y.
+            
+        """
         assert "case_study" in variables, "case_study must be in variables"
         X_all = list()
         for v in variables:
@@ -77,6 +112,23 @@ class WDF_Model:
         type_scaler: str,
         variables: List[str],
     ):
+        """
+        Normalize, standardize, and scale.
+
+        Args:
+            Xtra: np.array.
+            Ytra: np.array.
+            Xval: np.array.
+            Yval: np.array.
+            Xtest: np.array.
+            Ytest: np.array.
+            type_scaler: String eg. MinMax or Standard.
+            variables: List of variables ['case_study', 'days', 'precipitation'...].
+
+        Returns:
+            Xtra, Ytra, Xval, Yval, Xtest, Ytest, scx, scy.
+
+        """
         assert type_scaler in [
             "MinMax",
             "Standard",
@@ -121,8 +173,18 @@ class WDF_Model:
         lookback: int,
         type_scaler: str = "MinMax",
     ):
-        """Prepare the X,Y datasets for train, test and validation."""
+        """
+        Prepares train and validation sets.
 
+        Args:
+            variables: List of variables ['case_study', 'days', 'precipitation'...].
+            config: Dictionary of dictionaries: {'case_study': {'train': 'path'},...}.
+            lookback: number of timesteps.
+            type_scaler: String eg. MinMax or Standard.
+
+        Returns:
+            Xtra, Ytra, Xval, Yval, Xtest, Ytest, scx, scy.        
+        """
         # Select the variables for the model to be trained on
         train_dict = WDF_Model.read_datasets(variables, config, mode="train")
         test_dict = WDF_Model.read_datasets(variables, config, mode="test")
