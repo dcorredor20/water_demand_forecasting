@@ -1,10 +1,8 @@
 {
   "ExpandedNodes": [
     "",
-    "\\water_demand_forecasting",
-    "\\water_demand_forecasting\\notebooks",
-    "\\water_demand_forecasting\\water_demand_forecasting"
+    "\\water_demand_forecasting"
   ],
-  "SelectedNode": "\\water_demand_forecasting\\plots.py",
+  "SelectedNode": "\\water_demand_forecasting\\water_demand_forecasting.py",
   "PreviewInSolutionExplorer": false
 }
