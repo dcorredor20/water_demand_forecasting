@@ -15,12 +15,12 @@ class WDF_Model:
         variables: List[str], config: Dict[str, str], mode: str
     ) -> Dict[str, pd.DataFrame]:
         assert mode in ["train", "test"], "Mode not in train, test"
-        df_files = dict()
+        dict_files = dict()
         for v in variables:
             assert v in config.keys(), "Variable not in config"
             # Read data
-            df_files[v] = pd.read_csv(config[v][mode], header=None, sep=r"\s+")
-        return df_files
+            dict_files[v] = pd.read_csv(config[v][mode], header=None, sep=r"\s+")
+        return dict_files
 
     @staticmethod
     def create_sequences(
@@ -41,7 +41,7 @@ class WDF_Model:
 
     @staticmethod
     def build_datasets(
-        variables: List[str], df_files: Dict[str, pd.DataFrame], lookback: int,
+        variables: List[str], dict_files: Dict[str, pd.DataFrame], lookback: int,
     ) -> Tuple[np.array, np.array]:
         """Load data and return X and Y."""
         assert "case_study" in variables, "case_study must be in variables"
@@ -49,10 +49,10 @@ class WDF_Model:
         for v in variables:
             # Reshape data
             if v == "case_study":
-                X = df_files[v].values.reshape(-1)
+                X = dict_files[v].values.reshape(-1)
                 X, Y = WDF_Model.create_sequences(X, lookback)
             else:
-                X = np.array(df_files[v])
+                X = np.array(dict_files[v])
                 X, _ = WDF_Model.create_sequences(X, lookback)
 
             # If more than one variable reshape
@@ -109,11 +109,11 @@ class WDF_Model:
         """Prepare the X,Y datasets for train, test and validation."""
 
         # Select the variables for the model to be trained on
-        train_df = WDF_Model.read_datasets(variables, config, mode="train")
-        test_df = WDF_Model.read_datasets(variables, config, mode="test")
+        train_dict = WDF_Model.read_datasets(variables, config, mode="train")
+        test_dict = WDF_Model.read_datasets(variables, config, mode="test")
 
-        X, Y = WDF_Model.build_datasets(variables, train_df, lookback)
-        Xtest, Ytest = WDF_Model.build_datasets(variables, train_df, lookback)
+        X, Y = WDF_Model.build_datasets(variables, train_dict, lookback)
+        Xtest, Ytest = WDF_Model.build_datasets(variables, train_dict, lookback)
 
         # Create train and validation sets
         Xtra, Xval, Ytra, Yval = train_test_split(X, Y, shuffle=True)
