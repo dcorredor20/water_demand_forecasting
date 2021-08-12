@@ -128,7 +128,7 @@ class WDF_Model:
         test_dict = WDF_Model.read_datasets(variables, config, mode="test")
 
         X, Y = WDF_Model.build_datasets(variables, train_dict, lookback)
-        Xtest, Ytest = WDF_Model.build_datasets(variables, train_dict, lookback)
+        Xtest, Ytest = WDF_Model.build_datasets(variables, test_dict, lookback)
 
         # Create train and validation sets
         Xtra, Xval, Ytra, Yval = train_test_split(X, Y, shuffle=True)
