@@ -193,7 +193,7 @@ class WDF_Model:
         Xtest, Ytest = WDF_Model.build_datasets(variables, test_dict, lookback)
 
         # Create train and validation sets
-        Xtra, Xval, Ytra, Yval = train_test_split(X, Y, shuffle=True)
+        Xtra, Xval, Ytra, Yval = train_test_split(X, Y, test_size = 0.15, shuffle=True)
 
         Xtra, Ytra, Xval, Yval, Xtest, Ytest, scx, scy = WDF_Model.scaler(
             Xtra, Ytra, Xval, Yval, Xtest, Ytest, type_scaler, variables
