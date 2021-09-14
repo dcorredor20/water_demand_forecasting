@@ -10,9 +10,9 @@ def loss_plot(model, model_str: str, color: str):
         model.history["val_loss"], label=f"{model_str} val loss", color=color, ls="--",
     )
     ax[0].legend()
-    ax[1].plot(model.history["mse"], label=f"{model_str} MSE", color=color)
+    ax[1].plot(model.history["mae"], label=f"{model_str} MAE", color=color)
     ax[1].plot(
-        model.history["val_mse"], label=f"{model_str} val MSE", color=color, ls="--",
+        model.history["val_mae"], label=f"{model_str} val MAE", color=color, ls="--",
     )
     ax[1].legend()
     return
